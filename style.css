@@ -2,6 +2,7 @@
 	height:100px;
 	width: 80%;
 	background-color: red;
+	margin-top: 50px;
 }
 
 #dealer{
@@ -12,7 +13,7 @@
 
 #table{
 
-	height:50px;
+	height:70px;
 	width: 80%;
 	background-color: green;
 	margin-top: 25px;
@@ -33,4 +34,58 @@ h1 , h2{
 img{
 	height: 100%;
 	width: auto;
+	margin: 0 auto;
 }
+
+
+#player-modal , #dealer-modal , #bust-modal , #tie-modal , #blackjack-modal {
+  position: fixed;
+  top: 140px;
+  right: 45%;
+  display: none;
+  width: 20%;
+  height: auto;
+}
+
+#bet{
+	margin-left: 50px;
+}
+
+
+
+#bank{
+	margin-left: 150px;
+}
+
+#betinput , #betbutton {
+	margin-top: 20px;
+	margin-left: 5px;
+}
+
+#displayDealerTotal {
+	position: absolute;
+	top: 118px;
+	right: 150px;
+}
+
+.dealerTotal{
+	position: absolute;
+	top: 118px;
+	right: 125px;
+}
+
+
+#displayPlayerTotal{
+position: absolute;
+right: 150px
+}
+
+.playerTotal{
+	position: absolute;
+	right: 125px;
+}
+
+
+
+
+
