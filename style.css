@@ -1,0 +1,36 @@
+#player{
+	height:100px;
+	width: 80%;
+	background-color: red;
+}
+
+#dealer{
+	height:100px;
+	width: 80%;
+	background-color: blue;
+}
+
+#table{
+
+	height:50px;
+	width: 80%;
+	background-color: green;
+	margin-top: 25px;
+	margin-bottom: 25px;
+}
+
+div{
+	margin: 0 auto;
+}
+
+
+h1 , h2{
+	color : white;
+	display: inline;
+	margin-top: 0;
+}
+
+img{
+	height: 100%;
+	width: auto;
+}
