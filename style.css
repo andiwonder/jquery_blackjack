@@ -38,7 +38,8 @@ img{
 }
 
 
-#player-modal , #dealer-modal , #bust-modal , #tie-modal , #blackjack-modal {
+#player-modal , #dealer-modal , #player-bust-modal , 
+#dealer-bust-modal , #tie-modal , #blackjack-modal {
   position: fixed;
   top: 140px;
   right: 45%;

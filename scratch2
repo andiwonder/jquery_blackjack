@@ -6,10 +6,6 @@ var suits = ["hearts","diamonds","clubs","spades"];
 var deck1 = [];
 var deck2 = [];
 var deck3 = [];
-var deck4 = [];
-var deck5 = [];
-var deck6 = [];
-var shoe = [];
 var player = [];
 var dealer = [];
 var startDealerTotal = 0;
@@ -34,8 +30,7 @@ var bet = 100;
 var datModal = $('#modal');
 var playerModal = $('#player-modal');
 var dealerModal = $('#dealer-modal');
-var playerBustModal = $('#player-bust-modal');
-var dealerBustModal = $('#dealer-bust-modal');
+var bustModal = $('#bust-modal');
 var tieModal = $('#tie-modal');
 var blackjackModal = $('#blackjack-modal');
 
@@ -67,17 +62,6 @@ var createDeck = function createDeck(myarray){
 		}
 	}
 
-var createShoe = function createShoe (){
-	createDeck(deck1);
-	createDeck(deck2);
-	createDeck(deck3);
-	createDeck(deck4);
-	createDeck(deck5);
-	createDeck(deck6);
-
-shoe = shoe.concat(deck1 , deck2 , deck3 , deck4 , deck5 , deck6)
-}
-
 var randomcards = function randomcards(myarray,myarray2){
 	var rand1 = myarray[Math.floor(Math.random() * myarray.length)];
 	var cardindex = myarray.indexOf(rand1);
@@ -96,14 +80,11 @@ var randomcards = function randomcards(myarray,myarray2){
 	// debugger
 }
 
-
-
 var dealCards = function dealCards(){
-
-	randomcards(shoe,dealer);
-	randomcards(shoe,player);
-	randomcards(shoe,dealer);
-	randomcards(shoe,player);
+	randomcards(deck1,dealer);
+	randomcards(deck1,player);
+	randomcards(deck1,dealer);
+	randomcards(deck1,player);
 	// console.log("player has", player[0].actualCard, player[0].suit, "and", player[1].actualCard, player[1].suit);
 	// console.log("dealer has", dealer[0].actualCard, dealer[0].suit, "and", dealer[1].actualCard, dealer[1].suit);
 }
@@ -118,8 +99,6 @@ var getTotal = function getTotal(myarray){
 	return sum
 }
 
-
-//can use firsthand as input argument , look at commented code below.
 var rendertoDom = function rendertoDom (){
 
 	// for (var i = 0; i < player.length ; i++ ){
@@ -135,13 +114,18 @@ var rendertoDom = function rendertoDom (){
 	$('.bank').text(bank);
 	$('.bet').text(bet);
 
-	// if (firsthand===true){
-	// 	$('.dealerTotal').text(startDealerTotal);
-	// } else (firsthand===false){
-	// 	$('.dealerTotal').text(dealerTotal);
-	// }
-
 }
+
+// var checkTotal = function checkTotal(total){
+// 	if (total < 21){
+// 		console.log("keep going")
+// 	} else if (total == 21) {
+// 		console.log("Blackjack")
+// 	} else if (total > 21) {
+// 		console.log("Bust!")
+// 	}
+
+// }
 
 
 $('#betbutton').click(function (){
@@ -160,16 +144,14 @@ $('#hit').click(function (){
 
 	if (playerTotal>21) {
 		winner("bust");
-	} else if (playerTotal<21){
-		console.log("games goes on!")
-	}
+	} 
 
 })
 }
 
 var turnStandOn = function turnStandOn (){
 
-$('#stand').click(function evalutestand(){
+$('#stand').click(function (){
 	$('img').eq(1).attr("src",dealer[1].imgURL);
 	$('.dealerTotal').text(dealerTotal);
 	randomcards(deck1,dealer)
@@ -182,7 +164,7 @@ $('#stand').click(function evalutestand(){
 	//
 	if (dealerTotal<17){
 		console.log("hit again!")
-		evalutestand();
+
 	} else if (dealerTotal>=17 && dealerTotal <=21) {
 		if (dealerTotal>playerTotal) {
 			winner("dealer");
@@ -214,7 +196,7 @@ var winner = function (winner){
 		$('.bank').text(bank);
 		$('.bet').text(bet);
 		playerModal.toggle(1000, function (){
-			$('#reset').click(function(){playerModal.toggle(500);
+			$('#reset').click(function(){playerModal.toggle(1000);
 			});
 		});
 
@@ -224,86 +206,76 @@ var winner = function (winner){
 		$('.bank').text(bank);
 		$('.bet').text(bet);
 		dealerModal.toggle(1000, function (){
-			$('#reset').click(function(){dealerModal.toggle(500);
+			$('#reset').click(function(){dealerModal.toggle(1000);
 			});
 		});
-	} else if (winner==="playerbust") {
+	} else if (winner="playerbust") {
 		turnButtonsOff();
 		bank -= bet;
 		$('.bank').text(bank);
 		$('.bet').text(bet);
-		playerBustModal.toggle(1000, function (){
-			$('#reset').click(function(){playerBustModal.toggle(500);
+		bustModal.toggle(1000, function (){
+			$('#reset').click(function(){bustModal.toggle(1000);
 			});
 		});
 
-	} else if (winner==="dealerbust") {
+	} else if (winner="dealerbust") {
 		turnButtonsOff();
 		bank += bet;
 		$('.bank').text(bank);
 		$('.bet').text(bet);
-		dealerBustModal.toggle(1000, function (){
-			$('#reset').click(function(){dealerBustModal.toggle(500);
+		bustModal.toggle(1000, function (){
+			$('#reset').click(function(){bustModal.toggle(1000);
 			});
 		});
-	} else if (winner==="tie") {
+	} else if (winner="tie") {
 		turnButtonsOff();
 		tieModal.toggle(1000, function (){
-			$('#reset').click(function(){tieModal.toggle(500);
+			$('#reset').click(function(){tieModal.toggle(1000);
 			});
 		});
-	} else if (winner==="playerBlackjack") {
-		console.log(playerTotal);
+	} else if (winner="playerBlackjack") {
 		turnButtonsOff();
 		blackjackModal.toggle(1000, function (){
-			$('#reset').click(function(){blackjackModal.toggle(500);
+			$('#reset').click(function(){blackjackModal.toggle(1000);
 			});
 		});
 	}
 }
 
-
-
 $('#reset').click(function (){
 
-turnButtonsOff();
-
+turnStandOn();
+turnHitOn();
 console.log("reset clicked");
 $('.standCards').remove();
 $('.hitCards').remove();
 player = [];
 dealer = [];
+$()
 console.log(player);
 console.log(dealer);
 createDeck(deck1);
 dealCards();
-startDealerTotal = dealer[0].valueOfCard;
 playerTotal = getTotal(player);
 dealerTotal = getTotal(dealer);
-rendertoDom(false);
-
-turnStandOn();
-turnHitOn();
+rendertoDom();
 
 if (playerTotal == 21){
-	winner("playerBlackjack");
-	// player = [];
+	winner("playerBlackjack")
 }
-// else {
-// 	console.log("keep going");
-// }
 
 });
 
 
-createShoe();
+createDeck(deck1);
 dealCards();
 playerTotal = getTotal(player);
 startDealerTotal = dealer[0].valueOfCard;
 dealerTotal = getTotal(dealer);
 rendertoDom();
-turnStandOn();
-turnHitOn();
+// turnHitOn();
+// turnStandOn();
 
 
 
