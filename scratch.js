@@ -6,6 +6,10 @@ var suits = ["hearts","diamonds","clubs","spades"];
 var deck1 = [];
 var deck2 = [];
 var deck3 = [];
+var deck4 = [];
+var deck5 = [];
+var deck6 = [];
+var shoe = [];
 var player = [];
 var dealer = [];
 var startDealerTotal = 0;
@@ -30,7 +34,8 @@ var bet = 100;
 var datModal = $('#modal');
 var playerModal = $('#player-modal');
 var dealerModal = $('#dealer-modal');
-var bustModal = $('#bust-modal');
+var playerBustModal = $('#player-bust-modal');
+var dealerBustModal = $('#dealer-bust-modal');
 var tieModal = $('#tie-modal');
 var blackjackModal = $('#blackjack-modal');
 
@@ -62,6 +67,17 @@ var createDeck = function createDeck(myarray){
 		}
 	}
 
+var createShoe = function createShoe (){
+	createDeck(deck1);
+	createDeck(deck2);
+	createDeck(deck3);
+	createDeck(deck4);
+	createDeck(deck5);
+	createDeck(deck6);
+
+shoe = shoe.concat(deck1 , deck2 , deck3 , deck4 , deck5 , deck6)
+}
+
 var randomcards = function randomcards(myarray,myarray2){
 	var rand1 = myarray[Math.floor(Math.random() * myarray.length)];
 	var cardindex = myarray.indexOf(rand1);
@@ -80,11 +96,14 @@ var randomcards = function randomcards(myarray,myarray2){
 	// debugger
 }
 
+
+
 var dealCards = function dealCards(){
-	randomcards(deck1,dealer);
-	randomcards(deck1,player);
-	randomcards(deck1,dealer);
-	randomcards(deck1,player);
+
+	randomcards(shoe,dealer);
+	randomcards(shoe,player);
+	randomcards(shoe,dealer);
+	randomcards(shoe,player);
 	// console.log("player has", player[0].actualCard, player[0].suit, "and", player[1].actualCard, player[1].suit);
 	// console.log("dealer has", dealer[0].actualCard, dealer[0].suit, "and", dealer[1].actualCard, dealer[1].suit);
 }
@@ -99,6 +118,57 @@ var getTotal = function getTotal(myarray){
 	return sum
 }
 
+
+var checkForACE = function checkForACE (myarray){
+	for (var i=0; i<myarray.length ; i++){
+		if (myarray[i].actualCard ==='A') {
+			console.log("Ace is here!")
+		}
+	}
+}
+
+var checkPlayerTotal = function checkPlayerTotal(){
+	if (playerTotal === 21){
+		winner("playerBlackjack");
+//======================================================================
+	$('img').eq(1).attr("src",dealer[1].imgURL);
+	$('.dealerTotal').text(dealerTotal);
+	randomcards(shoe,dealer)
+	$('#displayDealerTotal').before($('<img class="standCards" src ='+ dealer[dealer.length-1].imgURL +'>'));
+	dealerTotal = getTotal(dealer);
+	$('.dealerTotal').text(dealerTotal);
+	// checkTotal(dealerTotal);
+
+	//when player choses stand , checks the dealers situation , give him some friendly advice.
+	//
+	if (dealerTotal<17){
+		console.log("hit again!")
+		evalutestand();
+	} else if (dealerTotal>=17 && dealerTotal <=21) {
+		if (dealerTotal>playerTotal) {
+			winner("dealer");
+			console.log("dealer wins!");
+		} else if (playerTotal>dealerTotal){
+			winner("player");
+			console.log("player wins!")
+		} else if (playerTotal==dealerTotal){
+			winner("tie");
+			console.log("push!")
+		}
+	} else if (dealerTotal>21){
+		console.log("dealer loses");
+		winner("dealerbust");
+	}
+	} else if (playerTotal > 21){
+		winner("playerbust");
+	}
+//================================================================
+
+};
+
+
+
+//can use firsthand as input argument , look at commented code below.
 var rendertoDom = function rendertoDom (){
 
 	// for (var i = 0; i < player.length ; i++ ){
@@ -114,26 +184,13 @@ var rendertoDom = function rendertoDom (){
 	$('.bank').text(bank);
 	$('.bet').text(bet);
 
+	// if (firsthand===true){
+	// 	$('.dealerTotal').text(startDealerTotal);
+	// } else (firsthand===false){
+	// 	$('.dealerTotal').text(dealerTotal);
+	// }
+
 }
-
-// var checkTotal = function checkTotal(total){
-// 	if (total < 21){
-// 		console.log("keep going")
-// 	} else if (total == 21) {
-// 		console.log("Blackjack")
-// 	} else if (total > 21) {
-// 		console.log("Bust!")
-// 	}
-
-// }
-
-
-createDeck(deck1);
-dealCards();
-playerTotal = getTotal(player);
-startDealerTotal = dealer[0].valueOfCard;
-dealerTotal = getTotal(dealer);
-rendertoDom();
 
 
 $('#betbutton').click(function (){
@@ -141,44 +198,51 @@ $('#betbutton').click(function (){
 	$('.bet').text(bet);
 });
 
-
+var turnHitOn = function turnHitOn (){
 
 $('#hit').click(function (){
-	randomcards(deck1,player)
+	randomcards(shoe,player)
 	$('#displayPlayerTotal').before($('<img class="hitCards" src ='+ player[player.length-1].imgURL +'>'));
 	playerTotal = getTotal(player);
 	$('.playerTotal').text(playerTotal);
 	// checkTotal(playerTotal);
+	checkForACE(player);
+	checkForACE(dealer);
 
-	if (playerTotal>21) {
-		winner("bust");
-	} 
+	checkPlayerTotal();
 
 })
+}
 
-$('#stand').click(function (){
+var turnStandOn = function turnStandOn (){
+
+
+$('#stand').click(function evalutestand(){
 	$('img').eq(1).attr("src",dealer[1].imgURL);
 	$('.dealerTotal').text(dealerTotal);
-	randomcards(deck1,dealer)
+	randomcards(shoe,dealer)
 	$('#displayDealerTotal').before($('<img class="standCards" src ='+ dealer[dealer.length-1].imgURL +'>'));
 	dealerTotal = getTotal(dealer);
 	$('.dealerTotal').text(dealerTotal);
+	checkForACE(player);
+	checkForACE(dealer);
 	// checkTotal(dealerTotal);
 
 	//when player choses stand , checks the dealers situation , give him some friendly advice.
 	//
+
 	if (dealerTotal<17){
 		console.log("hit again!")
-
+		evalutestand();
 	} else if (dealerTotal>=17 && dealerTotal <=21) {
 		if (dealerTotal>playerTotal) {
 			winner("dealer");
 			console.log("dealer wins!");
 		} else if (playerTotal>dealerTotal){
-			winner("player")
+			winner("player");
 			console.log("player wins!")
 		} else if (playerTotal==dealerTotal){
-			winner("tie")
+			winner("tie");
 			console.log("push!")
 		}
 	} else if (dealerTotal>21){
@@ -187,82 +251,107 @@ $('#stand').click(function (){
 	}
 })
 
+}
+
 var turnButtonsOff = function turnButtonsOff(){
 	$('#stand').off('click');
 	$('#hit').off('click')
 }
 
+
 var winner = function (winner){
 	if (winner==="player") {
+		turnButtonsOff();
 		bank += bet;
 		$('.bank').text(bank);
 		$('.bet').text(bet);
 		playerModal.toggle(1000, function (){
-			$('#reset').click(function(){playerModal.toggle(1000);
-			});
+			playerModal.toggle(500);
 		});
 
 	} else if (winner==="dealer") {
+		turnButtonsOff();
 		bank -= bet;
 		$('.bank').text(bank);
 		$('.bet').text(bet);
 		dealerModal.toggle(1000, function (){
-			$('#reset').click(function(){dealerModal.toggle(1000);
-			});
+			dealerModal.toggle(500);
 		});
-	} else if (winner="playerbust") {
+	} else if (winner==="playerbust") {
+		turnButtonsOff();
 		bank -= bet;
 		$('.bank').text(bank);
 		$('.bet').text(bet);
-		bustModal.toggle(1000, function (){
-			$('#reset').click(function(){bustModal.toggle(1000);
-			});
+		playerBustModal.toggle(1000, function (){
+			playerBustModal.toggle(500);
 		});
 
-	} else if (winner="dealerbust") {
+	} else if (winner==="dealerbust") {
+		turnButtonsOff();
 		bank += bet;
 		$('.bank').text(bank);
 		$('.bet').text(bet);
-		bustModal.toggle(1000, function (){
-			$('#reset').click(function(){bustModal.toggle(1000);
-			});
+		dealerBustModal.toggle(1000, function (){
+			dealerBustModal.toggle(500);
 		});
-	} else if (winner="tie") {
+	} else if (winner==="tie") {
+		turnButtonsOff();
 		tieModal.toggle(1000, function (){
-			$('#reset').click(function(){tieModal.toggle(1000);
-			});
+			tieModal.toggle(500);
 		});
-	} else if (winner="playerBlackjack") {
+	} else if (winner==="playerBlackjack") {
+		console.log(playerTotal);
+		turnButtonsOff();
 		blackjackModal.toggle(1000, function (){
-			$('#reset').click(function(){blackjackModal.toggle(1000);
-			});
+			blackjackModal.toggle(500);
 		});
 	}
 }
 
+
+
 $('#reset').click(function (){
 
-console.log("reset clicked");
-$('.standCards').remove();
-$('.hitCards').remove();
-player = [];
-dealer = [];
-$()
-console.log(player);
-console.log(dealer);
-createDeck(deck1);
-dealCards();
-playerTotal = getTotal(player);
-dealerTotal = getTotal(dealer);
-rendertoDom();
+	turnButtonsOff();
+	console.log("reset clicked");
+	$('.standCards').remove();
+	$('.hitCards').remove();
+	player = [];
+	dealer = [];
+	console.log(player);
+	console.log(dealer);
+	// createDeck(deck1);
+	dealCards();
+	checkForACE(player);
+	checkForACE(dealer);
+	startDealerTotal = dealer[0].valueOfCard;
+	playerTotal = getTotal(player);
+	dealerTotal = getTotal(dealer);
+	rendertoDom(false);
+	turnStandOn();
+	turnHitOn();
+	checkPlayerTotal();
 
-if (playerTotal == 21){
-	winner("playerBlackjack")
-}
+	
+	// else {
+	// 	console.log("keep going");
+	// }
 
 });
 
 
+
+createShoe();
+dealCards();
+checkForACE(player);
+checkForACE(dealer);
+playerTotal = getTotal(player);
+startDealerTotal = dealer[0].valueOfCard;
+dealerTotal = getTotal(dealer);
+rendertoDom();
+turnStandOn();
+turnHitOn();
+checkPlayerTotal();
 
 
 // $('#displayDealerTotal').before($('<img src ="img/h6.png">'));

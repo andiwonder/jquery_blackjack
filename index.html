@@ -7,29 +7,34 @@
 <h1>BlackJack</h1>
 	<div id="dealer">
 		<h1>dealer</h1>
-		<img class="playercard" src="img/h2.png">
-		<img class="playercard" src="img/h3.png">
-		<h2 id="displayDealerTotal">Dealer Total:</h2>
+		<img class="card first" src="img/h2.png">
+		<img class="card" src="img/h3.png">
+<!-- 		<h2 id="displayDealerTotal">Dealer Total:</h2> -->
 		<h2 class="dealerTotal"></h2>
 	</div>
 	<div id="player">
 		<h1>player</h1>
-		<img class="dealercard" src="img/d2.png">
-		<img class="dealercard" src="img/d3.png">
-		<h2 id="displayPlayerTotal">Player Total:</h2>
+		<img class="card third" src="img/d2.png">
+		<img class="card" src="img/d3.png">
+<!-- 		<h2 id="displayPlayerTotal">Player Total:</h2> -->
 		<h2 class="playerTotal"></h2>
 	</div>
-		<div id="table">
+	<div id="table">
 		<button id="hit">Hit</button>
 		<button id="stand">Stand</button>
 		<button id="reset">Reset</button>	
+		<button id="test">Test case</button>
 		<h2 id="bank">Bank:</h2>
 		<h2 class="bank"></h2>
-		<h2 id="bet">Bet:</h2>
-		<h2 class="bet"></h2>
 		</br>	
 		<input id="betinput" placeholder="Enter your bet here">
 		<button id="betbutton">Bet</button>
+	</div>
+	<div id="layout">
+		<div id="betting-circle">
+			<h2 class="bet"></h2>
+			<button id="double-down">Double Down</button>
+		</div>
 	</div>
 	<div id="player-modal">
 		 <h3>Player wins!</h3>
