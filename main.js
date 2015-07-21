@@ -115,79 +115,51 @@ var dealCards = function dealCards(){
 
 var getTotal = function getTotal(myarray){
 	var sum = 0;
+	var returnedData = [];
+	var arrOfAces = []
 	var numbersOfAce = 0;
-	var returnedData = $.grep(myarray, function (element) {
+
+	for (var i=0 ; i <= myarray.length -1; i++){
+		if (myarray[i].valueOfCard === 11) {
+			arrOfAces.push(i);
+			numbersOfAce += 1;
+		}
+	}
+
+	returnedData = $.grep(myarray, function (element) {
     return element.valueOfCard == 11;
 	});
-	// debugger
+
+	console.log(arrOfAces);
+	console.log(returnedData);
+
 	for (var i=0 ; i < myarray.length; i++){
-		// console.log(myarray[i].valueOfCard);
 		sum += myarray[i].valueOfCard;
-		// if (myarray === player) {
-			if (sum > 21 && myarray.length === 2){
-				console.log("its triggered!");
-				// debugger
-				sum = 0;
-				for (var i=0 ; i <= myarray.length -1; i++){
-					if (myarray[i].valueOfCard === 11) {
-						// debugger
-						numbersOfAce += 1;
-							if (numbersOfAce === 2){
-								console.log(numbersOfAce);
-								myarray[1].valueOfCard = 1;
-								// debugger
-								// if (myarray[2].valueOfCard >= 10){
-								// 	myarray[0].valueOfCard = 1;
-								// }
-							} else if (numbersOfAce === 3){
-								console.log(numbersOfAce);
-								myarray[0].valueOfCard = 1;
-								myarray[1].valueOfCard = 1;
-							} 					
-						// console.log(sum);
-					};
-					sum += myarray[i].valueOfCard;
+		if (sum > 21 && (returnedData.length === 1)){
+			sum = 0;
+			myarray[arrOfAces[0]].valueOfCard = 1;
+			for (var i=0 ; i < myarray.length; i++){
+				sum += myarray[i].valueOfCard;
+			}
+		return sum	
+		} else if (sum>21 && (returnedData.length === 2)) {
+			debugger
+			sum = 0;
+			myarray[arrOfAces[0]].valueOfCard = 1;
+				for (var i=0 ; i < myarray.length; i++){
+				sum += myarray[i].valueOfCard;
 				}
-			} else if (sum > 21 && myarray.length===3){
-				console.log("its triggered!");
-				// debugger
+			if (sum > 21) {
+				debugger
 				sum = 0;
-				for (var i=0 ; i <= myarray.length -1; i++){
-					if (myarray[i].valueOfCard === 11) {
-						// debugger
-						numbersOfAce += 1;
-							if (numbersOfAce === 2){
-								console.log(numbersOfAce);
-								myarray[1].valueOfCard = 1;
-								myarray[1].valueOfCard = 1;
-								// debugger
-								// if (myarray[2].valueOfCard >= 10){
-								// 	myarray[0].valueOfCard = 1;
-								// }
-							} else if (numbersOfAce === 3){
-								console.log(numbersOfAce);
-								myarray[0].valueOfCard = 1;
-								myarray[1].valueOfCard = 1;
-							} 					
-						// console.log(sum);
-					};
-					sum += myarray[i].valueOfCard;
-				}
-			} else if (sum > 21 && myarray.length === 4){
-				sum = 0;
-				for (var i=0 ; i <= myarray.length -1; i++){
-					if (myarray[i].valueOfCard === 11) {
-						numbersOfAce += 1;
-						// debugger
-							if (numbersOfAce === 2){
-								console.log(numbersOfAce);
-								myarray[1].valueOfCard = 1;
-								myarray[0].valueOfCard = 1;
-							}
-					}
-					sum += myarray[i].valueOfCard;
+				myarray[arrOfAces[0]].valueOfCard = 1;
+				myarray[arrOfAces[1]].valueOfCard = 1;
+				for (var i=0 ; i < myarray.length; i++){
+				sum += myarray[i].valueOfCard;
 				}
 			}
+		return sum;
+		}
 	}
 	return sum
 }
@@ -222,7 +194,7 @@ var rendertoDom = function rendertoDom (){
 	// }
 
 	$('img').eq(0).attr("src",dealer[0].imgURL);
-	$('img').eq(1).attr("src","img/joker.png").css("left","-100px");
+	$('img').eq(1).attr("src","img/backofcard.png").css("left","-100px");
 	$('img').eq(2).attr("src",player[0].imgURL);
 	$('img').eq(3).attr("src",player[1].imgURL).css("left","-100px");
 	$('.dealerTotal').text(startDealerTotal);
@@ -276,7 +248,7 @@ $('#hit').click(function (){
 	randomcards(shoe,player)
 	$('.playerTotal').before($('<img class="card player" src ='+ player[player.length-1].imgURL +'>'));
 	$('.player').eq(player.length-3).css("left",-200-((player.length-3)*100));
-	$('.playerTotal').css("right",450-((player.length-3)*50));
+	$('.playerTotal').css("left",520+((player.length-2)*50));
 	// $('.third').css("margin-left",40-((player.length-3)*10));
 	console.log("look");
 	// debugger
@@ -298,8 +270,8 @@ $('#stand').click(function evalutestand(){
 	$('.dealerTotal').text(dealerTotal);
 	randomcards(shoe,dealer)
 	$('.dealerTotal').before($('<img class="card dealer" src ='+ dealer[dealer.length-1].imgURL +'>'));
-	$('.dealer').eq(dealer.length-3).css("left",200-((dealer.length-3)*100));
-	$('.dealerTotal').css("right",450-((player.length-3)*50));
+	$('.dealer').eq(dealer.length-3).css("left",-200-((dealer.length-3)*100));
+	$('.dealerTotal').css("left",520+((dealer.length-2)*50));
 	dealerTotal = getTotal(dealer);
 	// checkForACE(dealer);
 	$('.dealerTotal').text(dealerTotal);
@@ -410,6 +382,8 @@ $('#reset').click(function (){
 	turnStandOn();
 	turnHitOn();
 	checkPlayerTotal();
+	$('.dealerTotal').css("left","530px");
+	$('.playerTotal').css("left","530px");
 
 	
 	// else {

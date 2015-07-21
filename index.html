@@ -4,7 +4,12 @@
 	<link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-<h1>BlackJack</h1>
+
+<div id="topbar">
+	<h1>BlackJack</h1>
+		<h2 id="bank">Bank:</h2>
+		<h2 class="bank"></h2>
+</div>
 	<div id="dealer">
 		<h1>dealer</h1>
 		<img class="card first" src="img/h2.png">
@@ -20,12 +25,10 @@
 		<h2 class="playerTotal"></h2>
 	</div>
 	<div id="table">
-		<button id="hit">Hit</button>
-		<button id="stand">Stand</button>
+		<button id="hit">HIT</button>
+		<button id="stand">STAND</button>
 		<button id="reset">Reset</button>	
 		<button id="test">Test case</button>
-		<h2 id="bank">Bank:</h2>
-		<h2 class="bank"></h2>
 		</br>	
 		<input id="betinput" placeholder="Enter your bet here">
 		<button id="betbutton">Bet</button>
@@ -33,7 +36,8 @@
 	<div id="layout">
 		<div id="betting-circle">
 			<h2 class="bet"></h2>
-			<button id="double-down">Double Down</button>
+			<button id="double-down"></button>
+			<h2 class="doubledowntext">Double Down</h2>
 		</div>
 	</div>
 	<div id="player-modal">
@@ -54,6 +58,10 @@
 	<div id="blackjack-modal">
 		 <h3>Blackjack!</h3>
 	</div>
+	<div id="logo">
+		<img class="logo" src="./img/logoblackjack3.png">
+	</div>
+<!-- 	<img class="insurancelogo" src="./img/insurancelogo.png"> -->
 </body>
 <script type="text/javascript" src="jquery-2.1.4.min.js"></script>
 <script type="text/javascript" src="main.js"></script>
