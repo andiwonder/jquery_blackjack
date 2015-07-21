@@ -1,0 +1,22 @@
+#Blackjack
+What: BlackJack gamme using HTML , CSS , Javascript , JQuery.
+Why : Cuz my life is dope and I do dope shit.
+Who : the real slim shady.
+
+
+
+Javascript -
+done : Core Game including Ace logic
+Not-done : Split , Double-down , Insurance , Side-bet , Start Game , End Game
+
+Css:
+done : dynamic styling of cards , total
+semi-done : modal , pop ups with some animation
+not done : response to scaling , start page and end page
+
+
+Intresting Observations:
+  1.Worked on stlying and logic in concert,
+   allowed me to switch from one to the another when I got bored or stuck
+  2.Underestimated the work
+  3.

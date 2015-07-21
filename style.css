@@ -105,7 +105,7 @@ h1 , h2{
 #dealer-bust-modal , #tie-modal , #blackjack-modal {
   position: absolute;
   display: none;
- 
+  color: white;
 }
 
 #dealer-modal{
@@ -179,7 +179,7 @@ h1 , h2{
 
 .dealerTotal{
 	position: absolute;
-  	left: 530px;
+  	left: 470px;
   	top: 20px;
   	background:#4679BD;
   	width: 75px;
@@ -194,7 +194,7 @@ h1 , h2{
 
 .playerTotal{
 	position: absolute;
-  	left: 530px;
+  	left: 470px;
   	bottom: 270px;
   	background:#4679BD;
   	width: 75px;

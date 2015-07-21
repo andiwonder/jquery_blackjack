@@ -17,17 +17,17 @@ var playerTotal = 0;
 var dealerTotal = 0;
 
 var himg = ["img/h2.png","img/h3.png","img/h4.png","img/h5.png","img/h6.png",
-				"img/h7.png","img/h8.png","img/h9.png","img/h10.png","img/hjack.png",
-				"img/hqueen.png","img/hking.png","img/hace.png"];
+"img/h7.png","img/h8.png","img/h9.png","img/h10.png","img/hjack.png",
+"img/hqueen.png","img/hking.png","img/hace.png"];
 var dimg = ["img/d2.png","img/d3.png","img/d4.png","img/d5.png","img/d6.png",
-				  "img/d7.png","img/d8.png","img/d9.png","img/d10.png","img/djack.png",
-				  "img/dqueen.png","img/dking.png","img/dace.png"];
+"img/d7.png","img/d8.png","img/d9.png","img/d10.png","img/djack.png",
+"img/dqueen.png","img/dking.png","img/dace.png"];
 var simg = ["img/s2.png","img/s3.png","img/s4.png","img/s5.png","img/s6.png",
-				  "img/s7.png","img/s8.png","img/s9.png","img/s10.png","img/sjack.png",
-				  "img/squeen.png","img/sking.png","img/sace.png"]
+"img/s7.png","img/s8.png","img/s9.png","img/s10.png","img/sjack.png",
+"img/squeen.png","img/sking.png","img/sace.png"]
 var cimg = ["img/c2.png","img/c3.png","img/c4.png","img/c5.png","img/c6.png",
-				  "img/c7.png","img/c8.png","img/c9.png","img/c10.png","img/cjack.png",
-				  "img/cqueen.png","img/cking.png","img/cace.png"]
+"img/c7.png","img/c8.png","img/c9.png","img/c10.png","img/cjack.png",
+"img/cqueen.png","img/cking.png","img/cace.png"]
 
 var bank = 1000;
 var bet = 100;
@@ -72,20 +72,20 @@ var createDeck = function createDeck(myarray){
 		}
 	}
 
-var createShoe = function createShoe (){
-	createDeck(deck1);
-	createDeck(deck2);
-	createDeck(deck3);
-	createDeck(deck4);
-	createDeck(deck5);
-	createDeck(deck6);
+	var createShoe = function createShoe (){
+		createDeck(deck1);
+		createDeck(deck2);
+		createDeck(deck3);
+		createDeck(deck4);
+		createDeck(deck5);
+		createDeck(deck6);
 
-shoe = shoe.concat(deck1 , deck2 , deck3 , deck4 , deck5 , deck6)
-}
+		shoe = shoe.concat(deck1 , deck2 , deck3 , deck4 , deck5 , deck6)
+	}
 
-var randomcards = function randomcards(myarray,myarray2){
-	var rand1 = myarray[Math.floor(Math.random() * myarray.length)];
-	var cardindex = myarray.indexOf(rand1);
+	var randomcards = function randomcards(myarray,myarray2){
+		var rand1 = myarray[Math.floor(Math.random() * myarray.length)];
+		var cardindex = myarray.indexOf(rand1);
 	// console.log(rand1);
 	myarray.splice(cardindex,1);
 	myarray2.push(rand1);
@@ -127,7 +127,7 @@ var getTotal = function getTotal(myarray){
 	}
 
 	returnedData = $.grep(myarray, function (element) {
-    return element.valueOfCard == 11;
+		return element.valueOfCard == 11;
 	});
 
 	console.log(arrOfAces);
@@ -141,45 +141,54 @@ var getTotal = function getTotal(myarray){
 			for (var i=0 ; i < myarray.length; i++){
 				sum += myarray[i].valueOfCard;
 			}
-		return sum	
+			return sum	
 		} else if (sum>21 && (returnedData.length === 2)) {
-			debugger
+			// debugger
 			sum = 0;
 			myarray[arrOfAces[0]].valueOfCard = 1;
-				for (var i=0 ; i < myarray.length; i++){
+			for (var i=0 ; i < myarray.length; i++){
 				sum += myarray[i].valueOfCard;
-				}
+			}
 			if (sum > 21) {
-				debugger
+				// debugger
 				sum = 0;
 				myarray[arrOfAces[0]].valueOfCard = 1;
 				myarray[arrOfAces[1]].valueOfCard = 1;
 				for (var i=0 ; i < myarray.length; i++){
-				sum += myarray[i].valueOfCard;
+					sum += myarray[i].valueOfCard;
 				}
 			}
-		return sum;
+			return sum;
 		}
 	}
 	return sum
 }
 
 
+var timeToSplit = function timeToSplit (array){
+	if (array[0].actualCard === array[1].actualCard) {
+		console.log("Time to Split up gang!")
+	}
+}
+
+
+
+
 var checkPlayerTotal = function checkPlayerTotal(){
 	if (playerTotal === 21){
 		winner("playerBlackjack");
 //======================================================================
-	$('img').eq(1).attr("src",dealer[1].imgURL);
-	$('.dealerTotal').text(dealerTotal);
-	randomcards(shoe,dealer)
-	$('#displayDealerTotal').before($('<img class="standCards" src ='+ dealer[dealer.length-1].imgURL +'>'));
-	dealerTotal = getTotal(dealer);
-	$('.dealerTotal').text(dealerTotal);
+$('img').eq(1).attr("src",dealer[1].imgURL);
+$('.dealerTotal').text(dealerTotal);
+randomcards(shoe,dealer)
+$('#displayDealerTotal').before($('<img class="standCards" src ='+ dealer[dealer.length-1].imgURL +'>'));
+dealerTotal = getTotal(dealer);
+$('.dealerTotal').text(dealerTotal);
 
-	} else if (playerTotal > 21){
-		getTotal(player);
-		winner("playerbust");
-	}
+} else if (playerTotal > 21){
+	getTotal(player);
+	winner("playerbust");
+}
 //================================================================
 
 };
@@ -217,9 +226,9 @@ $('#betbutton').click(function (){
 });
 
 
-	
+
 $('#test').click(function (){
-		turnButtonsOff();
+	turnButtonsOff();
 		// console.log("reset clicked");
 		$('.standCards').remove();
 		$('.hitCards').remove();
@@ -239,16 +248,16 @@ $('#test').click(function (){
 		turnHitOn();
 		checkPlayerTotal();
 
-});
+	});
 
 
 var turnHitOn = function turnHitOn (){
 
-$('#hit').click(function (){
-	randomcards(shoe,player)
-	$('.playerTotal').before($('<img class="card player" src ='+ player[player.length-1].imgURL +'>'));
-	$('.player').eq(player.length-3).css("left",-200-((player.length-3)*100));
-	$('.playerTotal').css("left",520+((player.length-2)*50));
+	$('#hit').click(function (){
+		randomcards(shoe,player)
+		$('.playerTotal').before($('<img class="card player" src ='+ player[player.length-1].imgURL +'>'));
+		$('.player').eq(player.length-3).css("left",-200-((player.length-3)*100));
+		$('.playerTotal').css("left",470+((player.length-2)*30));
 	// $('.third').css("margin-left",40-((player.length-3)*10));
 	console.log("look");
 	// debugger
@@ -265,14 +274,14 @@ $('#hit').click(function (){
 
 var turnStandOn = function turnStandOn (){
 
-$('#stand').click(function evalutestand(){
-	$('img').eq(1).attr("src",dealer[1].imgURL);
-	$('.dealerTotal').text(dealerTotal);
-	randomcards(shoe,dealer)
-	$('.dealerTotal').before($('<img class="card dealer" src ='+ dealer[dealer.length-1].imgURL +'>'));
-	$('.dealer').eq(dealer.length-3).css("left",-200-((dealer.length-3)*100));
-	$('.dealerTotal').css("left",520+((dealer.length-2)*50));
-	dealerTotal = getTotal(dealer);
+	$('#stand').click(function evalutestand(){
+		$('img').eq(1).attr("src",dealer[1].imgURL);
+		$('.dealerTotal').text(dealerTotal);
+		randomcards(shoe,dealer)
+		$('.dealerTotal').before($('<img class="card dealer" src ='+ dealer[dealer.length-1].imgURL +'>'));
+		$('.dealer').eq(dealer.length-3).css("left",-200-((dealer.length-3)*100));
+		$('.dealerTotal').css("left",470+((dealer.length-2)*30));
+		dealerTotal = getTotal(dealer);
 	// checkForACE(dealer);
 	$('.dealerTotal').text(dealerTotal);
 	
@@ -382,8 +391,8 @@ $('#reset').click(function (){
 	turnStandOn();
 	turnHitOn();
 	checkPlayerTotal();
-	$('.dealerTotal').css("left","530px");
-	$('.playerTotal').css("left","530px");
+	$('.dealerTotal').css("left","470px");
+	$('.playerTotal').css("left","470px");
 
 	
 	// else {
